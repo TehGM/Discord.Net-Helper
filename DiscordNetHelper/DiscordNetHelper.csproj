@@ -6,6 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="libs\win32\ffmpeg.exe" />
+    <None Remove="libs\win32\libsodium.dll" />
+    <None Remove="libs\win32\opus.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="libs\win32\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libs\win32\libsodium.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libs\win32\opus.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.0.1" />
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
