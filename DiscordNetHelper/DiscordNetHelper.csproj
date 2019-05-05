@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>TehGM.DiscordNetHelper</RootNamespace>
+    <Authors>TehGM</Authors>
+    <Description>A small personal use library working on top of Discord.NET. Shared code used across bot projects.</Description>
+    <RepositoryUrl>https://github.com/TehGM/DiscordNetHelper</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
