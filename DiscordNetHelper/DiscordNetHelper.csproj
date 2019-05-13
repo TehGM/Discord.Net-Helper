@@ -5,7 +5,7 @@
     <RootNamespace>TehGM.DiscordNetBot</RootNamespace>
     <Authors>TehGM</Authors>
     <Description>A small personal use library working on top of Discord.NET. Shared code used across bot projects.</Description>
-    <RepositoryUrl>https://github.com/TehGM/DiscordNetHelper</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TehGM/Discord.Net-Helper</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Version>2.0.2</Version>
     <NeutralLanguage>en-GB</NeutralLanguage>
