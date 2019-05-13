@@ -93,7 +93,7 @@ namespace TehGM.DiscordNetBot
                     return;
             }
         }
-        protected virtual Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousState, SocketVoiceState nextState)
+        protected virtual Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousState, SocketVoiceState newState)
             => Task.CompletedTask;
         protected virtual Task OnReactionAdded(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
             => Task.CompletedTask;
