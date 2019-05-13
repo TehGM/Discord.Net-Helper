@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,24 +10,13 @@
     <Version>2.0.0</Version>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <Copyright>Copyright (c) 2019 TehGM</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="libs\win32\ffmpeg.exe" />
-    <None Remove="libs\win32\libsodium.dll" />
-    <None Remove="libs\win32\opus.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="libs\win32\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libs\win32\libsodium.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libs\win32\opus.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Compile Remove="libs\**" />
+    <EmbeddedResource Remove="libs\**" />
+    <None Remove="libs\**" />
   </ItemGroup>
 
   <ItemGroup>

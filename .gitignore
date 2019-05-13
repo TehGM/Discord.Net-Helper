@@ -344,3 +344,5 @@ healthchecksdb
 auth.json
 # Bot data
 data.json
+# audio libs
+libs/win32/
