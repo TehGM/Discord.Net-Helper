@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordBot.CommandsProcessing
+namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public class RegexUserCommand : ICommandProcessor
     {

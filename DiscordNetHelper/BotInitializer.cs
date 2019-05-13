@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
-using TehGM.DiscordBot.CommandsProcessing;
-using TehGM.DiscordBot.Config;
-using TehGM.DiscordBot.Extensions;
+using TehGM.DiscordNetBot.CommandsProcessing;
+using TehGM.DiscordNetBot.Config;
+using TehGM.DiscordNetBot.Extensions;
 
-namespace TehGM.DiscordBot
+namespace TehGM.DiscordNetBot
 {
     public class BotInitializer<TConfig> : IDisposable where TConfig : IBotConfig
     {

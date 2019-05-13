@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordBot.Extensions
+namespace TehGM.DiscordNetBot.Extensions
 {
     public static class SocketMessageExtensions
     {

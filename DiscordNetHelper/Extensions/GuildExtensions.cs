@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordBot
+namespace TehGM.DiscordNetBot
 {
     public static class GuildExtensions
     {

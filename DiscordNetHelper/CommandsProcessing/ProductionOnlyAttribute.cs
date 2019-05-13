@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TehGM.DiscordBot.CommandsProcessing
+namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ProductionOnlyAttribute : Attribute

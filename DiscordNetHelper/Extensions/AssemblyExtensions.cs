@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace TehGM.DiscordBot.Extensions
+namespace TehGM.DiscordNetBot.Extensions
 {
     public static class AssemblyExtensions
     {

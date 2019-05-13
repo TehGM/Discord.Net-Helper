@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordBot.CommandsProcessing
+namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public interface ICommandProcessor
     {

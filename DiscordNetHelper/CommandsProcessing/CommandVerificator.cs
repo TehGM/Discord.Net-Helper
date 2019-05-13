@@ -4,7 +4,7 @@ using System.Text;
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace TehGM.DiscordBot.CommandsProcessing
+namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public class CommandVerificator : ICommandVerificator
     {

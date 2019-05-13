@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TehGM.DiscordBot.Config
+namespace TehGM.DiscordNetBot.Config
 {
     public interface IBotConfig
     {

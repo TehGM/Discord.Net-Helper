@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordBot.Extensions
+namespace TehGM.DiscordNetBot.Extensions
 {
     public static class JsonFileExtensions
     {
