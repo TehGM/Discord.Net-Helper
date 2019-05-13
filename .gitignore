@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# PROJECT SPECIFIC
+# Authorization tokens
+auth.json
+# Bot data
+data.json

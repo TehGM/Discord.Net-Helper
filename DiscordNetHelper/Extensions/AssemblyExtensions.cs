@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 
-namespace TehGM.DiscordNetHelper
+namespace TehGM.DiscordBot.Extensions
 {
     public static class AssemblyExtensions
     {

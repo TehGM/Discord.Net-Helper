@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TehGM.DiscordNetHelper.Config
+namespace TehGM.DiscordBot.Config
 {
     public interface IBotConfig
     {
-        BotAuth Auth { get; }
         ulong AuthorID { get; }
-        void ClearAuth();
+        BotAuth Auth { get; }
     }
 }

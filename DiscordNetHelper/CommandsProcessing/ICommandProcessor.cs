@@ -1,13 +1,10 @@
 ﻿using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordNetHelper.CommandsProcessing
+namespace TehGM.DiscordBot.CommandsProcessing
 {
     public interface ICommandProcessor
     {
-        Task<bool> Process(SocketMessage message);
+        Task<bool> ProcessAsync(DiscordSocketClient client, SocketMessage message);
     }
 }

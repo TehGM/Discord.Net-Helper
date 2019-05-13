@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TehGM.DiscordNetHelper
+namespace TehGM.DiscordBot
 {
-    public static class Extensions
+    public static class GuildExtensions
     {
         public static async Task<SocketGuildUser> GetGuildUser(this SocketGuild guild, ulong id)
         {
@@ -25,11 +25,5 @@ namespace TehGM.DiscordNetHelper
             => GetGuildUser(channel, user.Id);
         public static Task<SocketGuildUser> GetGuildUser(this SocketGuild guild, IUser user)
             => GetGuildUser(guild, user.Id);
-
-        public static string ToFriendlyString(this TimeSpan span)
-            => $"{(int)span.TotalHours} hours {(int)span.Minutes} minutes {(int)span.Seconds} seconds";
-
-        public static string GetVariableMention(this SocketUser user)
-            => $"<@!?{user.Id}>";
     }
 }
