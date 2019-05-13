@@ -8,7 +8,7 @@ namespace TehGM.DiscordNetBot.Config
 {
     public class BotAuth : IDisposable
     {
-        public const string DefaultPath = "Config/auth.json";
+        public static string DefaultPath { get; set; } = "Config/auth.json";
 
         [JsonProperty("token", Required = Required.Always)]
         public string Token { get; private set; }
