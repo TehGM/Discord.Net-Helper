@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TehGM.DiscordNetBot.Config;
 
-namespace TehGM.DiscordNetBot.CommandsProcessing
+namespace TehGM.DiscordNetBot
 {
     public abstract class HandlerBase<TConfig> : IDisposable where TConfig : IBotConfig
     {

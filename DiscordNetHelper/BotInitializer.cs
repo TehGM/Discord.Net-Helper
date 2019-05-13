@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
-using TehGM.DiscordNetBot.CommandsProcessing;
-using TehGM.DiscordNetBot.Config;
-using TehGM.DiscordNetBot.Extensions;
 
 namespace TehGM.DiscordNetBot
 {

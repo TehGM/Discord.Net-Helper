@@ -2,9 +2,8 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
-using TehGM.DiscordNetBot.Extensions;
 
-namespace TehGM.DiscordNetBot.Config
+namespace TehGM.DiscordNetBot
 {
     public class BotAuth : IBotAuth, IDisposable
     {

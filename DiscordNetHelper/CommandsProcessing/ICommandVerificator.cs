@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TehGM.DiscordNetBot.CommandsProcessing
+namespace TehGM.DiscordNetBot
 {
     public interface ICommandVerificator
     {
