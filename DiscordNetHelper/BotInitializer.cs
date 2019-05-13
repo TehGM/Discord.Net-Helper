@@ -13,13 +13,28 @@ namespace TehGM.DiscordNetBot
 {
     public class BotInitializer<TConfig> : IDisposable where TConfig : IBotConfig
     {
+        /// <summary>Started client.</summary>
+        /// <remarks>Note this property will be null until <see cref="StartClient"/> is invoked.</remarks>
         public DiscordSocketClient Client { get; private set; }
-        public TConfig Config { get; private set; }
+        /// <summary>Bot's config.</summary>
+        public TConfig Config { get; }
+        /// <summary>Handlers loaded.</summary>
+        /// <remarks>Note this property will be null until <see cref="StartClient"/> is invoked.</remarks>
         public IList<HandlerBase<TConfig>> Handlers { get; private set; }
 
+        /// <summary>Size of message cache.</summary>
+        /// <remarks>Note that changing this property has no effect after <see cref="StartClient"/> has been invoked.</remarks>
+        public int MessageCacheSize { get; set; }
+        /// <summary>Should this instance automatically handle logging to console?</summary>
         public bool HandleLogs { get; set; } = true;
+        /// <summary>Log level when a debugger is attached.</summary>
+        /// <remarks>Note that changing this property has no effect after <see cref="StartClient"/> has been invoked.</remarks>
         public LogSeverity DebuggingLogLevel { get; set; } = LogSeverity.Debug;
+        /// <summary>Log level when no debugger is attached.</summary>
+        /// <remarks>Note that changing this property has no effect after <see cref="StartClient"/> has been invoked.</remarks>
         public LogSeverity ProductionLogLevel { get; set; } = LogSeverity.Info;
+        /// <summary>Should all handlers in this assembly be automatically loaded?</summary>
+        /// <remarks>Note that changing this property has no effect after <see cref="StartClient"/> has been invoked.</remarks>
         public bool AutoLoadHandlers { get; set; } = true;
 
         public BotInitializer(TConfig config)
@@ -32,9 +47,12 @@ namespace TehGM.DiscordNetBot
         /// <returns>Discord socket client instance.</returns>
         public virtual async Task<DiscordSocketClient> StartClient()
         {
+            if (Client != null)
+                throw new InvalidOperationException($"Client is already started. Use a new instance of {nameof(BotInitializer<TConfig>)} for new clients.");
             DiscordSocketConfig clientConfig = new DiscordSocketConfig();
             clientConfig.WebSocketProvider = Discord.Net.WebSockets.DefaultWebSocketProvider.Instance;
             clientConfig.LogLevel = Debugger.IsAttached ? DebuggingLogLevel : ProductionLogLevel;
+            clientConfig.MessageCacheSize = this.MessageCacheSize;
             Client = new DiscordSocketClient(clientConfig);
 
             Client.Log += Client_Log;
@@ -74,6 +92,7 @@ namespace TehGM.DiscordNetBot
         public virtual void Dispose()
         {
             Client.Log -= Client_Log;
+            Client?.Dispose();
         }
     }
 }
