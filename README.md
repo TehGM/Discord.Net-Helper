@@ -71,7 +71,7 @@ protected override async Task OnReactionAdded(Cacheable<IUserMessage, ulong> mes
 ```
 By default, each of the overriden methods will be executed on a separate task to prevent blocking socket connection task. If this behaviour is undesirable, you can listen to events of `Client` directly - they will execute on the same task. Alternatively, `SwitchTaskContext` to false will disable this behaviour for entire handler. 
 
-> Currently, majority of client events are relayed through few tasks to allow such behaviour. If you're manually building this library and perfmance is *really* critical, you may want to remove events you don't use from constructor **and** `Dispose()` method of [HandlerBase\<T\>](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/HandlerBase.cs).
+> Currently, majority of client events are relayed through few tasks to allow such behaviour. If you're manually building this library and performance is *really* critical, you may want to remove events you don't use from constructor **and** `Dispose()` method of [HandlerBase\<T\>](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/HandlerBase.cs).
 
 
 ### ProductionOnly attribute
@@ -184,6 +184,6 @@ static async Task Main(string[] args)
 
 ### Automatic handlers loading
 
-If `AutoLoadHandlers` property is set to true (and it is by default), calling `StartClient()` method will automatically load  handlers that inherit from [HandlerBase\<TConfig\>](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/HandlerBase.cs) defined in the same assembly as bot. Handlers that have [\[ProductionOnly\]](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ProductionOnlyAttribute.cs) attribute will not be loaded if debugger is attached (for example, when running bot with Debugging in Visual Studio).
+If `AutoLoadHandlers` property is set to true (and it is by default), calling `StartClient()` method will automatically load  handlers that inherit from defined in the same assembly as bot [HandlerBase\<TConfig\>](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/HandlerBase.cs). Handlers that have [\[ProductionOnly\]](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ProductionOnlyAttribute.cs) attribute will not be loaded if debugger is attached (for example, when running bot with Debugging in Visual Studio).
 
 Any handler can be manually created by using it's constructor. This has to be done after `StartClient()` has been called, as handlers need access to Client instance.
