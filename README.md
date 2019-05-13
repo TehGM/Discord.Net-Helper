@@ -158,6 +158,30 @@ The class has few properties that can be changed, however they need to be change
 
 After calling `StartClient()`, you can use `Client` property to retrieve the discord socket client instance. Keep in mind, that according to [Discord.NET Documentation](https://discord.foxbot.me/docs/guides/getting_started/first-bot.html), the client may not be connected to Discord yet - use Connected event for initialization actions that require client to be connected.
 
+### Changing prefix
+If you use custom implementation of Command Verificator, you need to make your command verificator accept correct prefix in it's logic.
+
+If you use instances of verificator, change `StringPrefix` property of the instance.
+```csharp
+ICommandVerificator verificator = new CommandVerificator();
+// change the prefix
+verificator.StringPrefix = "??";
+// use custom verificator for "??foo bar" command
+CommandsStack.Add(new RegexUserCommand("^foo bar", CmdFooBar, verificator));
+```
+If you don't use instances and let [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) use default instance, simply change prefix in default instances. This can be done for example in Main method, before starting the bot.
+```csharp
+static async Task Main(string[] args)
+{
+	// change prefix of default verificator
+	(CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix = "??";
+    // change prefix of default guild only verificator (optional, as not automatically used)
+	(CommandVerificator.DefaultPrefixedGuildOnly as CommandVerificator).StringPrefix = "??";
+    
+    // other startup logic
+}
+```
+
 ### Automatic handlers loading
 
 If `AutoLoadHandlers` property is set to true (and it is by default), calling `StartClient()` method will automatically load  handlers that inherit from [HandlerBase\<TConfig\>](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/HandlerBase.cs) defined in the same assembly as bot. Handlers that have [\[ProductionOnly\]](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ProductionOnlyAttribute.cs) attribute will not be loaded if debugger is attached (for example, when running bot with Debugging in Visual Studio).
