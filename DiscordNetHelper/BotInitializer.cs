@@ -17,19 +17,22 @@ namespace TehGM.DiscordBot
         public TConfig Config { get; private set; }
         public IList<HandlerBase<TConfig>> Handlers { get; private set; }
 
-        public bool LoadConfigs { get; set; } = true;
         public bool HandleLogs { get; set; } = true;
         public LogSeverity DebuggingLogLevel { get; set; } = LogSeverity.Debug;
         public LogSeverity ProductionLogLevel { get; set; } = LogSeverity.Info;
         public bool AutoLoadHandlers { get; set; } = true;
 
-        public virtual async Task<DiscordSocketClient> StartClient(TConfig config)
+        public BotInitializer(TConfig config)
+        {
+            this.Config = config;
+        }
+
+        public virtual async Task<DiscordSocketClient> StartClient()
         {
             DiscordSocketConfig clientConfig = new DiscordSocketConfig();
             clientConfig.WebSocketProvider = Discord.Net.WebSockets.DefaultWebSocketProvider.Instance;
             clientConfig.LogLevel = Debugger.IsAttached ? DebuggingLogLevel : ProductionLogLevel;
             Client = new DiscordSocketClient(clientConfig);
-            Config = config;
 
             Client.Log += Client_Log;
 
