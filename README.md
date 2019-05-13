@@ -159,9 +159,9 @@ The class has few properties that can be changed, however they need to be change
 After calling `StartClient()`, you can use `Client` property to retrieve the discord socket client instance. Keep in mind, that according to [Discord.NET Documentation](https://discord.foxbot.me/docs/guides/getting_started/first-bot.html), the client may not be connected to Discord yet - use Connected event for initialization actions that require client to be connected.
 
 ### Changing prefix
-If you use custom implementation of Command Verificator, you need to make your command verificator accept correct prefix in it's logic.
+Command Verificator is responsible for checking for prefix. If you use custom implementation of ICommandVerificator, you need to make your command verificator accept correct prefix in it's logic.
 
-If you use instances of verificator, change `StringPrefix` property of the instance.
+If you use instances of default verificator, change `StringPrefix` property of the instance.
 ```csharp
 ICommandVerificator verificator = new CommandVerificator();
 // change the prefix
