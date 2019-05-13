@@ -27,6 +27,9 @@ namespace TehGM.DiscordNetBot
             this.Config = config;
         }
 
+        /// <summary>Starts and connects the bot client.</summary>
+        /// <remarks><para>If handlers weren't already loaded and <see cref="AutoLoadHandlers"/> is set to true, this method will load all handlers in assembly automatically.</para></remarks>
+        /// <returns>Discord socket client instance.</returns>
         public virtual async Task<DiscordSocketClient> StartClient()
         {
             DiscordSocketConfig clientConfig = new DiscordSocketConfig();

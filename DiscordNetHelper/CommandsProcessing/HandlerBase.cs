@@ -11,14 +11,21 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public abstract class HandlerBase<TConfig> : IDisposable where TConfig : IBotConfig
     {
+        /// <summary>Discord socket client for this handler instance.</summary>
         protected DiscordSocketClient Client { get; private set; }
+        /// <summary>Config for the bot.</summary>
         protected TConfig Config { get; }
+        /// <summary>Should overridable methods be invoked on a separate task?</summary>
         public bool SwitchTaskContext { get; set; } = true;
+        /// <summary>Stack of commands.</summary>
         protected IList<ICommandProcessor> CommandsStack { get; set; }
 
         // when handler is constructed, the client might not be connected yet
         // so delay init to first access attempt
         private SocketUser _authorUser;
+        /// <summary>Instance of user which is the bot's author.</summary>
+        /// <remarks><para>This value may throw exceptions if the bot is not connected to Discord Socket.</para>
+        /// <para>Requires a valid user ID to be provided in bot config.</para></remarks>
         public SocketUser AuthorUser
         {
             get
@@ -29,6 +36,9 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
             }
         }
 
+        /// <summary>Initializes the handler.</summary>
+        /// <param name="client">Discord socket client for this handler instance.</param>
+        /// <param name="config">Bot's config.</param>
         public HandlerBase(DiscordSocketClient client, TConfig config)
         {
             this.Client = client;
@@ -69,6 +79,7 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
             => InvokeTask(() => OnReactionAdded(message, channel, reaction));
         private Task Client_MessageReceived(SocketMessage message)
             => InvokeTask(() => OnMessageReceived(message));
+
         private Task InvokeTask(Func<Task> task)
         {
             if (SwitchTaskContext)
@@ -89,6 +100,8 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
             }
         }
 
+        /// <summary>Gets default prefix from the default <see cref="CommandVerificator"/>.</summary>
+        /// <returns>String representing default bot's prefix.</returns>
         public string GetDefaultPrefix()
         {
             string prefix = (CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix;

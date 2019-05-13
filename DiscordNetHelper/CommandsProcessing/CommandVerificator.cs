@@ -25,15 +25,22 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
             StringPrefix = "!"
         };
 
+        /// <summary>Should this verificator return false for any bot message?</summary>
         public bool IgnoreBots { get; set; }
+        /// <summary>Should mention be accepted instead of normal prefix?</summary>
         public bool AcceptMentionPrefix { get; set; }
+        /// <summary>String prefix for commands.</summary>
         public string StringPrefix { get; set; }
 
+        /// <summary>Should the verificator accept guild messages?</summary>
         public bool AcceptGuildMessages { get; set; }
+        /// <summary>Should the verificator accept DMs?</summary>
         public bool AcceptPrivateMessages { get; set; }
 
+        /// <summary>Does this bot require any prefix (string or mention)?</summary>
         public bool RequirePrefix => AcceptMentionPrefix || !string.IsNullOrWhiteSpace(StringPrefix);
 
+        /// <inheritdoc/>
         public bool Verify(SocketCommandContext command, out string actualCommand)
         {
             actualCommand = null;

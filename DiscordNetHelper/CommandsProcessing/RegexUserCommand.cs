@@ -10,30 +10,57 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public class RegexUserCommand : ICommandProcessor
     {
+        /// <summary>Default regex options when creating a command.</summary>
+        /// <remarks>This is used only by constructors that take string pattern instead of <see cref="Regex"/> instance.</remarks>
         public static RegexOptions DefaultRegexOptions { get; set; } = RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline;
+        /// <summary>Default verificator to use when it's not explicitly provided in constructor.</summary>
         public static ICommandVerificator DefaultVerificator { get; set; } = CommandVerificator.DefaultPrefixed;
 
         private readonly Regex _regex;
         private readonly Func<SocketCommandContext, Match, Task> _method;
         private readonly ICommandVerificator _verificator;
 
+        /// <summary>Creates a new command instance.</summary>
+        /// <param name="verificator">Verificator to use when processing messages.</param>
+        /// <param name="regex">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(ICommandVerificator verificator, Regex regex, Func<SocketCommandContext, Match, Task> method)
         {
             this._verificator = verificator;
             this._regex = regex;
             this._method = method;
         }
+        /// <summary>Creates a new command instance using a default verificator.</summary>
+        /// <param name="regex">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(Regex regex, Func<SocketCommandContext, Match, Task> method)
             : this(DefaultVerificator, regex, method) { }
+        /// <summary>Creates a new command instance.</summary>
+        /// <param name="verificator">Verificator to use when processing messages.</param>
+        /// <param name="pattern">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="options">Regex options for created Regex instance.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(ICommandVerificator verificator, string pattern, RegexOptions options, Func<SocketCommandContext, Match, Task> method)
             : this(verificator, new Regex(pattern, options), method) { }
+        /// <summary>Creates a new command instance.</summary>
+        /// <param name="verificator">Verificator to use when processing messages.</param>
+        /// <param name="pattern">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(ICommandVerificator verificator, string pattern, Func<SocketCommandContext, Match, Task> method)
             : this(verificator, pattern, DefaultRegexOptions, method) { }
+        /// <summary>Creates a new command instance.</summary>
+        /// <param name="pattern">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="options">Regex options for created Regex instance.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(string pattern, RegexOptions options, Func<SocketCommandContext, Match, Task> method)
             : this(DefaultVerificator, new Regex(pattern, options), method) { }
+        /// <summary>Creates a new command instance using a default verificator.</summary>
+        /// <param name="pattern">Regex pattern the message should match after being stripped of prefixes by verificator.</param>
+        /// <param name="method">Callback to execute if message passes all checks when processing.</param>
         public RegexUserCommand(string pattern, Func<SocketCommandContext, Match, Task> method)
             : this(pattern, DefaultRegexOptions, method) { }
 
+        /// <inheritdoc/>
         public async Task<bool> ProcessAsync(DiscordSocketClient client, SocketMessage message)
         {
             if (!(message is SocketUserMessage msg))
