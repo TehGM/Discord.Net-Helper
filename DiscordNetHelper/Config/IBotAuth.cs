@@ -4,9 +4,8 @@ using System.Text;
 
 namespace TehGM.DiscordNetBot.Config
 {
-    public interface IBotConfig
+    public interface IBotAuth
     {
-        ulong AuthorID { get; }
-        IBotAuth Auth { get; }
+        string Token { get; }
     }
 }

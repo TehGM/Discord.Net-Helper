@@ -6,7 +6,7 @@ using TehGM.DiscordNetBot.Extensions;
 
 namespace TehGM.DiscordNetBot.Config
 {
-    public class BotAuth : IDisposable
+    public class BotAuth : IBotAuth, IDisposable
     {
         public static string DefaultPath { get; set; } = "Config/auth.json";
 
