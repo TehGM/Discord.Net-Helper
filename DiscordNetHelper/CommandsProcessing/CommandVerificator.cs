@@ -41,7 +41,7 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
         public bool RequirePrefix => AcceptMentionPrefix || !string.IsNullOrWhiteSpace(StringPrefix);
 
         /// <inheritdoc/>
-        public bool Verify(SocketCommandContext command, out string actualCommand)
+        public virtual bool Verify(SocketCommandContext command, out string actualCommand)
         {
             actualCommand = null;
             if (IgnoreBots && (command.User.IsBot || command.User.IsWebhook))
