@@ -10,8 +10,8 @@ namespace TehGM.DiscordNetBot.CommandsProcessing
 {
     public class RegexUserCommand : ICommandProcessor
     {
-        public const RegexOptions DefaultRegexOptions = RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline;
-        public static ICommandVerificator DefaultVerificator => CommandVerificator.DefaultPrefixed;
+        public static RegexOptions DefaultRegexOptions { get; set; } = RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline;
+        public static ICommandVerificator DefaultVerificator { get; set; } = CommandVerificator.DefaultPrefixed;
 
         private readonly Regex _regex;
         private readonly Func<SocketCommandContext, Match, Task> _method;
