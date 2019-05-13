@@ -7,6 +7,9 @@
     <Description>A small personal use library working on top of Discord.NET. Shared code used across bot projects.</Description>
     <RepositoryUrl>https://github.com/TehGM/DiscordNetHelper</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
+    <Version>2.0.0</Version>
+    <NeutralLanguage>en-GB</NeutralLanguage>
+    <Copyright>Copyright (c) 2019 TehGM</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
