@@ -14,7 +14,7 @@ public class BotConfig : IBotConfig
 {
     public const string DefaultPath = "Config/config.json";
 
-	// auth
+    // auth
     [JsonIgnore]
     public IBotAuth Auth { get; private set; }
     // bot's custom runtime data which can be saved at runtime
@@ -143,7 +143,7 @@ private static BotInitializer<BotConfig> _initializer;
 
 static async Task Main(string[] args)
 {
-	// load our custom config
+    // load our custom config
     BotConfig config = await BotConfig.LoadAsync();
     // create initializer
     _initializer = new BotInitializer<BotConfig>(config);
@@ -162,14 +162,14 @@ After calling `StartClient()`, you can use `Client` property to retrieve the dis
 ```csharp
 static async Task Main(string[] args)
 {
-	/* ... */
+    /* ... */
     await _initializer.StartClient();
-	_initializer.Client.Connected += Client_Connected;
-	/* ... */
+    _initializer.Client.Connected += Client_Connected;
+    /* ... */
 }
 
 private static Task Client_Connected()
-	=> _initializer.Client.SetGameAsync("!help", null, ActivityType.Listening);
+    => _initializer.Client.SetGameAsync("!help", null, ActivityType.Listening);
 ```
 
 ### Changing prefix
@@ -187,12 +187,12 @@ If you don't use instances and let [RegexUserCommand](https://github.com/TehGM/D
 ```csharp
 static async Task Main(string[] args)
 {
-	// change prefix of default verificator
-	(CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix = "??";
-	// change prefix of default guild only verificator (optional, as not automatically used)
-	(CommandVerificator.DefaultPrefixedGuildOnly as CommandVerificator).StringPrefix = "??";
+    // change prefix of default verificator
+    (CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix = "??";
+    // change prefix of default guild only verificator (optional, as not automatically used)
+    (CommandVerificator.DefaultPrefixedGuildOnly as CommandVerificator).StringPrefix = "??";
 
-	// other startup logic
+    // other startup logic
 }
 ```
 
