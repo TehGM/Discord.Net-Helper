@@ -139,16 +139,18 @@ You can change any property of default verificator. If it's not enough, you can 
 One of the goals of the library is to simplify the bot starting. For this purpose, I created [BotInitializer](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/BotInitializer.cs) class. It's sole purpose is to start the client.
 
 ```csharp
+private static BotInitializer<BotConfig> _initializer;
+
 static async Task Main(string[] args)
 {
 	// load our custom config
     BotConfig config = await BotConfig.LoadAsync();
     // create initializer
-    BotInitializer<BotConfig> initializer = new BotInitializer<BotConfig>(config);
+    _initializer = new BotInitializer<BotConfig>(config);
     // (optional) set properties, for example message cache size:
-    initializer.MessageCacheSize = 10;
+    _initializer.MessageCacheSize = 10;
     // start and connect client
-    await initializer.StartClient();
+    await _initializer.StartClient();
     // prevent application from exiting
     await Task.Delay(-1);
 }
@@ -157,6 +159,18 @@ static async Task Main(string[] args)
 The class has few properties that can be changed, however they need to be changed before `StartClient()` method is invoked. Changing them after calling that method will have no effect. An exception to this is `HandleLogs` property, which can be changed at any time.
 
 After calling `StartClient()`, you can use `Client` property to retrieve the discord socket client instance. Keep in mind, that according to [Discord.NET Documentation](https://discord.foxbot.me/docs/guides/getting_started/first-bot.html), the client may not be connected to Discord yet - use Connected event for initialization actions that require client to be connected.
+```csharp
+static async Task Main(string[] args)
+{
+	/* ... */
+    await _initializer.StartClient();
+	_initializer.Client.Connected += Client_Connected;
+	/* ... */
+}
+
+private static Task Client_Connected()
+	=> _initializer.Client.SetGameAsync("!help", null, ActivityType.Listening);
+```
 
 ### Changing prefix
 Command Verificator is responsible for checking for prefix. If you use custom implementation of ICommandVerificator, you need to make your command verificator accept correct prefix in it's logic.
@@ -175,10 +189,10 @@ static async Task Main(string[] args)
 {
 	// change prefix of default verificator
 	(CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix = "??";
-    // change prefix of default guild only verificator (optional, as not automatically used)
+	// change prefix of default guild only verificator (optional, as not automatically used)
 	(CommandVerificator.DefaultPrefixedGuildOnly as CommandVerificator).StringPrefix = "??";
-    
-    // other startup logic
+
+	// other startup logic
 }
 ```
 
