@@ -131,7 +131,8 @@ The default verificator has following properties:
 - AcceptMentionPrefix = true,
 - AcceptGuildMessages = true,
 - AcceptPrivateMessages = true,
-- StringPrefix = "!"
+- StringPrefix = "!",
+- TrimSpaceAfterStringPrefix = false
 
 You can change any property of default verificator. If it's not enough, you can extend default [CommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) implementation, or create a completely new one by implementing [ICommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) interface.
 

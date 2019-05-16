@@ -14,7 +14,8 @@ namespace TehGM.DiscordNetBot
             AcceptMentionPrefix = true,
             AcceptGuildMessages = true,
             AcceptPrivateMessages = true,
-            StringPrefix = "!"
+            StringPrefix = "!",
+            TrimSpaceAfterStringPrefix = false
         };
         public static ICommandVerificator DefaultPrefixedGuildOnly { get; set; } = new CommandVerificator()
         {
@@ -22,7 +23,8 @@ namespace TehGM.DiscordNetBot
             AcceptMentionPrefix = true,
             AcceptGuildMessages = true,
             AcceptPrivateMessages = false,
-            StringPrefix = "!"
+            StringPrefix = "!",
+            TrimSpaceAfterStringPrefix = false
         };
 
         /// <summary>Should this verificator return false for any bot message?</summary>
@@ -36,6 +38,10 @@ namespace TehGM.DiscordNetBot
         public bool AcceptGuildMessages { get; set; }
         /// <summary>Should the verificator accept DMs?</summary>
         public bool AcceptPrivateMessages { get; set; }
+        /// <summary>Should spaces after <see cref="StringPrefix"/> be removed?</summary>
+        /// <remarks><para>This affects only actualCommand given by <see cref="Verify(SocketCommandContext, out string)"/> method.</para>
+        /// <para>Spaces are always removed after Mention prefix.</para></remarks>
+        public bool TrimSpaceAfterStringPrefix { get; set; }
 
         /// <summary>Does this bot require any prefix (string or mention)?</summary>
         public bool RequirePrefix => AcceptMentionPrefix || !string.IsNullOrWhiteSpace(StringPrefix);
@@ -57,13 +63,25 @@ namespace TehGM.DiscordNetBot
             }
             // extract actual command so it can be confirmed with regex
             int cmdIndex = 0;
-            if ((AcceptMentionPrefix && command.Message.HasMentionPrefix(command.Client.CurrentUser, ref cmdIndex)) ||
-                (!string.IsNullOrWhiteSpace(StringPrefix) && command.Message.HasStringPrefix(StringPrefix, ref cmdIndex)))
+            if (AcceptMentionPrefix && command.Message.HasMentionPrefix(command.Client.CurrentUser, ref cmdIndex))
             {
-                actualCommand = command.Message.Content.Substring(cmdIndex);
+                actualCommand = GetActualCommand(command, cmdIndex, true);
+                return true;
+            }
+            if (!string.IsNullOrWhiteSpace(StringPrefix) && command.Message.HasStringPrefix(StringPrefix, ref cmdIndex))
+            {
+                actualCommand = GetActualCommand(command, cmdIndex, TrimSpaceAfterStringPrefix);
                 return true;
             }
             return false;
+        }
+
+        private static string GetActualCommand(SocketCommandContext command, int cmdIndex, bool trimPrefixSpace)
+        {
+            string actualCommand = command.Message.Content.Substring(cmdIndex);
+            if (trimPrefixSpace)
+                actualCommand = actualCommand.TrimStart(' ');
+            return actualCommand;
         }
     }
 }
