@@ -290,11 +290,11 @@ namespace TehGM.DiscordNetBot
             }
         }
 
-        /// <summary>Gets default prefix from the default <see cref="CommandVerificator"/>.</summary>
+        /// <summary>Gets default prefix from the default <see cref="CommandVerifier"/>.</summary>
         /// <returns>String representing default bot's prefix.</returns>
         public string GetDefaultPrefix()
         {
-            string prefix = (CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix;
+            string prefix = (CommandVerifier.DefaultPrefixed as CommandVerifier).StringPrefix;
             if (prefix == null)
                 prefix = Client.CurrentUser.Mention;
             return prefix;

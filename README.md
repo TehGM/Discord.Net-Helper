@@ -77,7 +77,7 @@ By default, each of the overriden methods will be executed on a separate task to
 ### ProductionOnly attribute
 Handler can additionally have [\[ProductionOnly\]](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ProductionOnlyAttribute.cs) attribute added. Doing so prevents the handler from being automatically loaded by [BotInitializer](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/BotInitializer.cs) if a debugger is attached, for example by Visual Studio. This can be useful when bot is already running with stable commands while you're testing out new ones.
 
->An example of an alternative approach is to implement custom "debug" mode, and use a custom [ICommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) to return false for finished commands when running with debugger. However, this is not implemented in this library and requires a custom implementation
+>An example of an alternative approach is to implement custom "debug" mode, and use a custom [ICommandVerifier](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerifier.cs) to return false for finished commands when running with debugger. However, this is not implemented in this library and requires a custom implementation
 
 
 ## Commands Processing
@@ -86,7 +86,7 @@ One of my main issues with Discord.NET is it's command handling solution. While 
 ### Command
 Command processor is the heart of my command processing system - is effectively an instance of a command. It is designed to take a message, and run series of checks to determine if assigned callback should be executed. [ICommandProcessor](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandProcessor.cs)'s `ProcessAsync` method is used together with handler's Commands stack - if it returns true, the next commands in the stack will not be checked.
 
-This library comes with a default [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) command processor, which is designed to use ICommandVerificator and RegEx to validate the command.
+This library comes with a default [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) command processor, which is designed to use ICommandVerifier and RegEx to validate the command.
 
 [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) invokes the provided method, inserting message context and Regex Match as params. Match can be used to easily retrieve groups from regex pattern.
 
@@ -95,7 +95,7 @@ class MyCustomHandler : HandlerBase<BotConfig>
 { 
     public MyCustomHandler(DiscordSocketClient client, BotConfig config) : base(client, config)
     {
-    	// execute CmdFoo when user sends "!foo <something>" (using default verificator)
+    	// execute CmdFoo when user sends "!foo <something>" (using default verifier)
     	CommandsStack.Add(new RegexUserCommand("^foo (.+)", CmdFoo));
     }
     private async Task CmdFoo(SocketCommandContext message, Match match)
@@ -109,24 +109,24 @@ class MyCustomHandler : HandlerBase<BotConfig>
 }
 ```
 
-### Command Verificator
-Command verificator has similar purpose as Command Processor and is designed to work together with it. In fact, it could be a part of a Command Processor itself. However, the separation gives few benefits:
+### Command Verifier
+Command verifier has similar purpose as Command Processor and is designed to work together with it. In fact, it could be a part of a Command Processor itself. However, the separation gives few benefits:
 1. Simplifies constructor of a command.
 2. Allows sharing common checks (such as checking for prefix) between commands easily with a single instance of checks set.
-3. Reduces Command Processor responsibility to just validating command's text, and running the verificator.
+3. Reduces Command Processor responsibility to just validating command's text, and running the verifier.
 4. Allows creating few default sets of checks, such as set for guild-only commands.
 
-This library comes with a default [CommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) implementation, which additionally has two default instances - `DefaultPrefixed` and `DefaultPrefixedGuildOnly`, which accept a string or mention as prefix, and automatically ignore bot messages. Additionally, this implementation of verificator will automatically strip the message of prefix, and provide it to the CommandProcessor prefix-less. [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) by default will use `DefaultPrefixed`, but another instance can be supplied through a constructor.
+This library comes with a default [CommandVerifier](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerifier.cs) implementation, which additionally has two default instances - `DefaultPrefixed` and `DefaultPrefixedGuildOnly`, which accept a string or mention as prefix, and automatically ignore bot messages. Additionally, this implementation of verifier will automatically strip the message of prefix, and provide it to the CommandProcessor prefix-less. [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) by default will use `DefaultPrefixed`, but another instance can be supplied through a constructor.
 ```csharp
-ICommandVerificator verificator = new MyCustomVerificator();
-verificator.MyProperty = myValue;
-// use custom verificator for "foo bar" command
-CommandsStack.Add(new RegexUserCommand("^foo bar", CmdFooBar, verificator));
-// command "foo" will just use default verificator
+ICommandVerifier verifier = new MyCustomVerifier();
+verifier.MyProperty = myValue;
+// use custom verifier for "foo bar" command
+CommandsStack.Add(new RegexUserCommand("^foo bar", CmdFooBar, verifier));
+// command "foo" will just use default verifier
 CommandsStack.Add(new RegexUserCommand("^foo", CmdFoo));
 ```
 
-The default verificator has following properties:
+The default verifier has following properties:
 - IgnoreBots = true,
 - AcceptMentionPrefix = true,
 - AcceptGuildMessages = true,
@@ -134,7 +134,7 @@ The default verificator has following properties:
 - StringPrefix = "!",
 - TrimSpaceAfterStringPrefix = false
 
-You can change any property of default verificator. If it's not enough, you can extend default [CommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) implementation, or create a completely new one by implementing [ICommandVerificator](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerificator.cs) interface.
+You can change any property of default verifier. If it's not enough, you can extend default [CommandVerifier](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerifier.cs) implementation, or create a completely new one by implementing [ICommandVerifier](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/ICommandVerifier.cs) interface.
 
 ## Starting the bot
 One of the goals of the library is to simplify the bot starting. For this purpose, I created [BotInitializer](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/BotInitializer.cs) class. It's sole purpose is to start the client.
@@ -174,24 +174,24 @@ private static Task Client_Connected()
 ```
 
 ### Changing prefix
-Command Verificator is responsible for checking for prefix. If you use custom implementation of ICommandVerificator, you need to make your command verificator accept correct prefix in it's logic.
+Command Verifier is responsible for checking for prefix. If you use custom implementation of ICommandVerifier, you need to make your command verifier accept correct prefix in it's logic.
 
-If you use instances of default verificator, change `StringPrefix` property of the instance.
+If you use instances of default verifier, change `StringPrefix` property of the instance.
 ```csharp
-ICommandVerificator verificator = new CommandVerificator();
+ICommandVerifier verifier = new CommandVerifier();
 // change the prefix
-verificator.StringPrefix = "??";
-// use custom verificator for "??foo bar" command
-CommandsStack.Add(new RegexUserCommand("^foo bar", CmdFooBar, verificator));
+verifier.StringPrefix = "??";
+// use custom verifier for "??foo bar" command
+CommandsStack.Add(new RegexUserCommand("^foo bar", CmdFooBar, verifier));
 ```
 If you don't use instances and let [RegexUserCommand](https://github.com/TehGM/DiscordNetHelper/blob/master/DiscordNetHelper/CommandsProcessing/RegexUserCommand.cs) use default instance, simply change prefix in default instances. This can be done for example in Main method, before starting the bot.
 ```csharp
 static async Task Main(string[] args)
 {
-    // change prefix of default verificator
-    (CommandVerificator.DefaultPrefixed as CommandVerificator).StringPrefix = "??";
-    // change prefix of default guild only verificator (optional, as not automatically used)
-    (CommandVerificator.DefaultPrefixedGuildOnly as CommandVerificator).StringPrefix = "??";
+    // change prefix of default verifier
+    (CommandVerifier.DefaultPrefixed as CommandVerifier).StringPrefix = "??";
+    // change prefix of default guild only verifier (optional, as not automatically used)
+    (CommandVerifier.DefaultPrefixedGuildOnly as CommandVerifier).StringPrefix = "??";
 
     // other startup logic
 }

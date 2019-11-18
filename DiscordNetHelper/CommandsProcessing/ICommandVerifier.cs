@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TehGM.DiscordNetBot
 {
-    public interface ICommandVerificator
+    public interface ICommandVerifier
     {
         /// <summary>Verifies if the message matches specified rules set.</summary>
         /// <param name="command">Message received.</param>

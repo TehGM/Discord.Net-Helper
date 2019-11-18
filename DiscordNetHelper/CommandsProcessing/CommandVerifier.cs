@@ -6,9 +6,9 @@ using Discord.WebSocket;
 
 namespace TehGM.DiscordNetBot
 {
-    public class CommandVerificator : ICommandVerificator
+    public class CommandVerifier : ICommandVerifier
     {
-        public static ICommandVerificator DefaultPrefixed { get; set; } = new CommandVerificator()
+        public static ICommandVerifier DefaultPrefixed { get; set; } = new CommandVerifier()
         {
             IgnoreBots = true,
             AcceptMentionPrefix = true,
@@ -17,7 +17,7 @@ namespace TehGM.DiscordNetBot
             StringPrefix = "!",
             TrimSpaceAfterStringPrefix = false
         };
-        public static ICommandVerificator DefaultPrefixedGuildOnly { get; set; } = new CommandVerificator()
+        public static ICommandVerifier DefaultPrefixedGuildOnly { get; set; } = new CommandVerifier()
         {
             IgnoreBots = true,
             AcceptMentionPrefix = true,
@@ -27,20 +27,21 @@ namespace TehGM.DiscordNetBot
             TrimSpaceAfterStringPrefix = false
         };
 
-        /// <summary>Should this verificator return false for any bot message?</summary>
+        /// <summary>Should this verifier return false for any bot message?</summary>
         public bool IgnoreBots { get; set; }
         /// <summary>Should mention be accepted instead of normal prefix?</summary>
         public bool AcceptMentionPrefix { get; set; }
         /// <summary>String prefix for commands.</summary>
         public string StringPrefix { get; set; }
 
-        /// <summary>Should the verificator accept guild messages?</summary>
+        /// <summary>Should the verifier accept guild messages?</summary>
         public bool AcceptGuildMessages { get; set; }
-        /// <summary>Should the verificator accept DMs?</summary>
+        /// <summary>Should the verifier accept DMs?</summary>
         public bool AcceptPrivateMessages { get; set; }
         /// <summary>Should spaces after <see cref="StringPrefix"/> be removed?</summary>
         /// <remarks><para>This affects only actualCommand given by <see cref="Verify(SocketCommandContext, out string)"/> method.</para>
-        /// <para>Spaces are always removed after Mention prefix.</para></remarks>
+        /// <para>Spaces are always removed after Mention prefix.</para>
+        /// <para>Enable this if you want command and prefix to be space separated, ie "!bot ping".</para></remarks>
         public bool TrimSpaceAfterStringPrefix { get; set; }
 
         /// <summary>Does this bot require any prefix (string or mention)?</summary>
